@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CartRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
  */
-class Cart
+class Order
 {
     /**
      * @ORM\Id()
@@ -22,9 +22,9 @@ class Cart
     private $product_name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $product_reference;
+    private $reference;
 
     /**
      * @ORM\Column(type="float")
@@ -37,11 +37,6 @@ class Cart
     private $quantity;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="carts")
-     */
-    private $user;
-
-    /**
      * @ORM\Column(type="float")
      */
     private $amount;
@@ -52,9 +47,9 @@ class Cart
     private $created_at;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="orders")
      */
-    private $updated_at;
+    private $user;
 
     public function getId(): ?int
     {
@@ -73,14 +68,14 @@ class Cart
         return $this;
     }
 
-    public function getProductReference(): ?string
+    public function getReference(): ?string
     {
-        return $this->product_reference;
+        return $this->reference;
     }
 
-    public function setProductReference(string $product_reference): self
+    public function setReference(?string $reference): self
     {
-        $this->product_reference = $product_reference;
+        $this->reference = $reference;
 
         return $this;
     }
@@ -109,18 +104,6 @@ class Cart
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUser(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getAmount(): ?float
     {
         return $this->amount;
@@ -145,14 +128,14 @@ class Cart
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeInterface
+    public function getUser(): ?User
     {
-        return $this->updated_at;
+        return $this->user;
     }
 
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    public function setUser(?User $user): self
     {
-        $this->updated_at = $updated_at;
+        $this->user = $user;
 
         return $this;
     }

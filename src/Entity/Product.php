@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CartRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
-class Cart
+class Product
 {
     /**
      * @ORM\Id()
@@ -19,12 +19,12 @@ class Cart
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $product_name;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $product_reference;
+    private $reference;
 
     /**
      * @ORM\Column(type="float")
@@ -32,19 +32,19 @@ class Cart
     private $price;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="text")
      */
-    private $quantity;
+    private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="carts")
+     * @ORM\Column(type="string", length=255)
      */
-    private $user;
+    private $slug;
 
     /**
-     * @ORM\Column(type="float")
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $amount;
+    private $image_url;
 
     /**
      * @ORM\Column(type="datetime")
@@ -56,31 +56,36 @@ class Cart
      */
     private $updated_at;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="products")
+     */
+    private $category;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getProductName(): ?string
+    public function getName(): ?string
     {
-        return $this->product_name;
+        return $this->name;
     }
 
-    public function setProductName(string $product_name): self
+    public function setName(string $name): self
     {
-        $this->product_name = $product_name;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getProductReference(): ?string
+    public function getReference(): ?string
     {
-        return $this->product_reference;
+        return $this->reference;
     }
 
-    public function setProductReference(string $product_reference): self
+    public function setReference(?string $reference): self
     {
-        $this->product_reference = $product_reference;
+        $this->reference = $reference;
 
         return $this;
     }
@@ -97,38 +102,38 @@ class Cart
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getDescription(): ?string
     {
-        return $this->quantity;
+        return $this->description;
     }
 
-    public function setQuantity(int $quantity): self
+    public function setDescription(string $description): self
     {
-        $this->quantity = $quantity;
+        $this->description = $description;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getSlug(): ?string
     {
-        return $this->user;
+        return $this->slug;
     }
 
-    public function setUser(?User $user): self
+    public function setSlug(string $slug): self
     {
-        $this->user = $user;
+        $this->slug = $slug;
 
         return $this;
     }
 
-    public function getAmount(): ?float
+    public function getImageUrl(): ?string
     {
-        return $this->amount;
+        return $this->image_url;
     }
 
-    public function setAmount(float $amount): self
+    public function setImageUrl(?string $image_url): self
     {
-        $this->amount = $amount;
+        $this->image_url = $image_url;
 
         return $this;
     }
@@ -153,6 +158,18 @@ class Cart
     public function setUpdatedAt(?\DateTimeInterface $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
