@@ -30,6 +30,26 @@ class AccountType extends AbstractType
                 'label' =>'Votre email',
                 'attr' => ['placeholder' => 'Veuillez mettre votre email']
             ])
+            ->add('address', TextType::class, [
+                'required' => true,
+                'label' =>'Votre adresse',
+                'attr' => ['placeholder' => 'Veuillez mettre votre adresse']
+            ])
+            ->add('cp', TextType::class, [
+                'required' => true,
+                'label' =>'Votre code postal',
+                'attr' => ['placeholder' => 'Veuillez mettre votre code postal']
+            ])
+            ->add('town', TextType::class, [
+                'required' => true,
+                'label' =>'Votre ville',
+                'attr' => ['placeholder' => 'Veuillez mettre votre ville']
+            ])
+            ->add('phone', TextType::class, [
+                'required' => true,
+                'label' =>'Votre téléphone',
+                'attr' => ['placeholder' => 'Veuillez mettre votre numéro de téléphone']
+            ])
 //            ->add('imageFile', VichImageType::class, [
 //                'label' => 'Téléchargez une image pour mettre dans votre profil',
 //                'required' => false,

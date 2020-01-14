@@ -244,7 +244,7 @@ class User implements UserInterface, \Serializable
     public function serialize(): string
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
-        return serialize([$this->id, $this->username, $this->pass, $this->mail, $this->address, $this->cp, $this->town, $this->phone]);
+        return serialize([$this->id, $this->username, $this->pass, $this->mail]);
     }
 
     /**
@@ -253,7 +253,7 @@ class User implements UserInterface, \Serializable
     public function unserialize($serialized): void
     {
         // add $this->salt too if you don't use Bcrypt or Argon2i
-        [$this->id, $this->username, $this->pass, $this->mail, $this->address, $this->cp, $this->town, $this->phone] = unserialize($serialized, ['allowed_classes' => false]);
+        [$this->id, $this->username, $this->pass, $this->mail] = unserialize($serialized, ['allowed_classes' => false]);
     }
 
     /**

@@ -46,8 +46,12 @@ security:
             logout:
                 path: user_deconnexion
                 target: user_connexion
+            # to share context with main firewall
+            context: user
         main:
             anonymous: true
+            #to share context between firewalls, here with user firewall
+            context: user
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 

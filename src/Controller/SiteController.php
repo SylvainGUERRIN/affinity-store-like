@@ -20,4 +20,22 @@ class SiteController extends AbstractController
     {
         return $this->render('site/home.html.twig');
     }
+
+    /**
+     * @return Response
+     * @Route("/boutique", name="boutique")
+     */
+    public function boutique()
+    {
+        return $this->render('site/boutique/index.html.twig');
+    }
+
+    /**
+     * @return Response
+     * @Route("/contact", name="contact")
+     */
+    public function contact(): Response
+    {
+        return $this->render('site/contact.html.twig');
+    }
 }
