@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,12 +23,16 @@ class SiteController extends AbstractController
     }
 
     /**
+     * @param ProductRepository $productRepository
      * @return Response
      * @Route("/boutique", name="boutique")
      */
-    public function boutique()
+    public function boutique(ProductRepository $productRepository)
     {
-        return $this->render('site/boutique/index.html.twig');
+        $allProducts = $productRepository->findAll();
+        return $this->render('site/boutique/index.html.twig', [
+            'products' => $allProducts
+        ]);
     }
 
     /**

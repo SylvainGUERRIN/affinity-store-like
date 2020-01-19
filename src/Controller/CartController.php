@@ -46,15 +46,25 @@ class CartController extends AbstractController
      * @route("/panier/add/{id}", name="cart_add")
      * @param $id
      * @param SessionInterface $session
+     * @return Response
      */
-    public function add($id, SessionInterface $session): void
+    public function add($id, SessionInterface $session): Response
     {
-        $cart = $session->get('panier', []);
+        if($request->isXmlHttpRequest()){
+            $cart = $session->get('panier', []);
+            dd($panier);
 
-        if(!empty($panier[$id])){
-            $panier[$id]++;
-        }else{
-            $panier[$id] = 1;
+            if(!empty($panier[$id])){
+                $panier[$id]++;
+                return $this->render('user/partials/_cart.html.twig', [
+                    'number' => $number,
+                ]);
+            }else{
+                $panier[$id] = 1;
+                return $this->render('user/partials/_cart.html.twig', [
+                    'number' => $number,
+                ]);
+            }
         }
     }
 

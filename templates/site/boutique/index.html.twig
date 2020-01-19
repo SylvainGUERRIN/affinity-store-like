@@ -9,96 +9,24 @@
             </div>
         </div>
         <div class="row">
+            {% for product in products %}
             <article class="col-6 mb-3">
             <div class="product-card">
                 <a href="#"class="link-img-product">
                     <img src="{{ asset('assets/images/products/book.jpg') }}" alt="image du produit">
                 </a>
                 <div class="description text-center">
-                    <h2 class="text-white">Our magnific product</h2>
-                    <p class="text-white">Prix: <span>12 €</span></p>
+                    <h2 class="text-white">{{ product.name }}</h2>
+                    <p class="text-white">Prix: <span>{{ product.price }}</span></p>
+                    <p class="text-white">{{ product.description }}</p>
                 </div>
                 <div class="buttons mb-3">
-                    <a href="#" class="btn btn-green" onclick="addCart('book-1')">Ajouter au panier</a>
+                    <a href="#" class="btn btn-green" onclick="addCart('{{ product.name }}')">Ajouter au panier</a>
                     <a href="#" class="btn btn-blue">En savoir plus</a>
                 </div>
             </div>
             </article>
-            <article class="col-6">
-                <div class="product-card">
-                    <a href="#"class="link-img-product">
-                        <img src="{{ asset('assets/images/products/book.jpg') }}" alt="image du produit">
-                    </a>
-                    <div class="description text-center">
-                        <h2 class="text-white">Our magnific product</h2>
-                        <p class="text-white">Prix: <span>12 €</span></p>
-                    </div>
-                    <div class="buttons mb-3">
-                        <a href="#" class="btn btn-green" onclick="addCart('book-1')">Ajouter au panier</a>
-                        <a href="#" class="btn btn-blue">En savoir plus</a>
-                    </div>
-                </div>
-            </article>
-            <article class="col-6 mb-3">
-                <div class="product-card">
-                    <a href="#"class="link-img-product">
-                        <img src="{{ asset('assets/images/products/book.jpg') }}" alt="image du produit">
-                    </a>
-                    <div class="description text-center">
-                        <h2 class="text-white">Our magnific product</h2>
-                        <p class="text-white">Prix: <span>12 €</span></p>
-                    </div>
-                    <div class="buttons mb-3">
-                        <a href="#" class="btn btn-green">Ajouter au panier</a>
-                        <a href="#" class="btn btn-blue">En savoir plus</a>
-                    </div>
-                </div>
-            </article>
-            <article class="col-6">
-                <div class="product-card">
-                    <a href="#"class="link-img-product">
-                        <img src="{{ asset('assets/images/products/book.jpg') }}" alt="image du produit">
-                    </a>
-                    <div class="description text-center">
-                        <h2 class="text-white">Our magnific product</h2>
-                        <p class="text-white">Prix: <span>12 €</span></p>
-                    </div>
-                    <div class="buttons mb-3">
-                        <a href="#" class="btn btn-green">Ajouter au panier</a>
-                        <a href="#" class="btn btn-blue">En savoir plus</a>
-                    </div>
-                </div>
-            </article>
-            <article class="col-6 mb-3">
-                <div class="product-card">
-                    <a href="#"class="link-img-product">
-                        <img src="{{ asset('assets/images/products/book.jpg') }}" alt="image du produit">
-                    </a>
-                    <div class="description text-center">
-                        <h2 class="text-white">Our magnific product</h2>
-                        <p class="text-white">Prix: <span>12 €</span></p>
-                    </div>
-                    <div class="buttons mb-3">
-                        <a href="#" class="btn btn-green">Ajouter au panier</a>
-                        <a href="#" class="btn btn-blue">En savoir plus</a>
-                    </div>
-                </div>
-            </article>
-            <article class="col-6">
-                <div class="product-card">
-                    <a href="#"class="link-img-product">
-                        <img src="{{ asset('assets/images/products/book.jpg') }}" alt="image du produit">
-                    </a>
-                    <div class="description text-center">
-                        <h2 class="text-white">Our magnific product</h2>
-                        <p class="text-white">Prix: <span>12 €</span></p>
-                    </div>
-                    <div class="buttons mb-3">
-                        <a href="#" class="btn btn-green">Ajouter au panier</a>
-                        <a href="#" class="btn btn-blue">En savoir plus</a>
-                    </div>
-                </div>
-            </article>
+            {% endfor %}
         </div>
     </div>
 
