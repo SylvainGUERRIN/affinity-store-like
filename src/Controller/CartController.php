@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
@@ -46,21 +47,27 @@ class CartController extends AbstractController
      * @route("/panier/add/{id}", name="cart_add")
      * @param $id
      * @param SessionInterface $session
+     * @param Request $request
      * @return Response
      */
-    public function add($id, SessionInterface $session): Response
+    public function add($id, SessionInterface $session, Request $request): Response
     {
         if($request->isXmlHttpRequest()){
-            $cart = $session->get('panier', []);
-            dd($panier);
-
+            $panier = $session->get('panier', []);
+//            dd($panier[$id]);
             if(!empty($panier[$id])){
                 $panier[$id]++;
+                $session->set('panier', $panier);
+                $number = $panier[$id];
+                dd($panier);
+                dd($number);
                 return $this->render('user/partials/_cart.html.twig', [
                     'number' => $number,
                 ]);
             }else{
                 $panier[$id] = 1;
+                $session->set('panier', $panier);
+                $number = 1;
                 return $this->render('user/partials/_cart.html.twig', [
                     'number' => $number,
                 ]);

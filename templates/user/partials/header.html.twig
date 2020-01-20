@@ -30,7 +30,9 @@
                             <a href="{{ path('user_deconnexion') }}" class="dropdown-item">Se déconnecter</a>
                         </div>
                     </li>
+                    <li id="cart-nav-item" class="nav-item cart-nav-item">
                     {% include 'user/partials/_cart.html.twig' %}
+                    </li>
                 {% else %}
                     <li class="nav-item">
                         <a href="{{ path('user_inscription') }}" class="nav-link">S'inscrire</a>
@@ -38,7 +40,9 @@
                     <li class="nav-item">
                         <a href="{{ path('user_connexion') }}" class="nav-link">Connexion</a>
                     </li>
-                    {% include 'user/partials/_cart.html.twig' %}
+                    <li id="cart-nav-item" class="nav-item cart-nav-item">
+                        {% include 'user/partials/_cart.html.twig' %}
+                    </li>
                 {% endif %}
             </ul>
         </div>
