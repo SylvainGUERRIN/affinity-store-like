@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,14 +25,22 @@ class SiteController extends AbstractController
 
     /**
      * @param ProductRepository $productRepository
+     * @param SessionInterface $session
      * @return Response
      * @Route("/boutique", name="boutique")
      */
-    public function boutique(ProductRepository $productRepository)
+    public function boutique(ProductRepository $productRepository, SessionInterface $session)
     {
+        $panier = $session->get('panier', []);
+        if(!empty($panier)){
+            $quantityProducts = array_sum($panier);
+        }else{
+            $quantityProducts = '';
+        }
         $allProducts = $productRepository->findAll();
         return $this->render('site/boutique/index.html.twig', [
-            'products' => $allProducts
+            'products' => $allProducts,
+            'quantityProducts' => $quantityProducts,
         ]);
     }
 

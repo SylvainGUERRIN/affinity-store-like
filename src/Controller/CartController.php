@@ -31,13 +31,16 @@ class CartController extends AbstractController
         }
 
         $total = 0;
+        $quantityProducts = 0;
 
         foreach ($panierWithData as $item){
             $totalItem = $item['product']->getPrice() * $item['quantity'];
             $total += $totalItem;
+            $quantityProducts += $item['quantity'];
         }
 
         return $this->render('site/boutique/cart.html.twig',[
+            'quantityProducts' => $quantityProducts,
             'items' => $panierWithData,
             'total' => $total
         ]);
@@ -54,22 +57,19 @@ class CartController extends AbstractController
     {
         if($request->isXmlHttpRequest()){
             $panier = $session->get('panier', []);
-//            dd($panier[$id]);
             if(!empty($panier[$id])){
                 $panier[$id]++;
                 $session->set('panier', $panier);
-                $number = $panier[$id];
-                dd($panier);
-                dd($number);
+                $total = array_sum($panier);
                 return $this->render('user/partials/_cart.html.twig', [
-                    'number' => $number,
+                    'number' => $total,
                 ]);
             }else{
                 $panier[$id] = 1;
                 $session->set('panier', $panier);
-                $number = 1;
+                $total = array_sum($panier);
                 return $this->render('user/partials/_cart.html.twig', [
-                    'number' => $number,
+                    'number' => $total,
                 ]);
             }
         }
