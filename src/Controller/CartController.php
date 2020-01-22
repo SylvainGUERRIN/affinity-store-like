@@ -61,18 +61,15 @@ class CartController extends AbstractController
                 $panier[$id]++;
                 $session->set('panier', $panier);
                 $total = array_sum($panier);
-                return $this->render('user/partials/_cart.html.twig', [
-                    'number' => $total,
-                ]);
             }else{
                 $panier[$id] = 1;
                 $session->set('panier', $panier);
                 $total = array_sum($panier);
-                return $this->render('user/partials/_cart.html.twig', [
-                    'number' => $total,
-                ]);
             }
         }
+        return $this->render('user/partials/_cart.html.twig', [
+            'number' => $total,
+        ]);
     }
 
     /**

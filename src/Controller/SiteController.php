@@ -15,12 +15,21 @@ use Symfony\Component\Routing\Annotation\Route;
 class SiteController extends AbstractController
 {
     /**
+     * @param SessionInterface $session
      * @return Response
      * @Route("/", name="home")
      */
-    public function home(): Response
+    public function home(SessionInterface $session): Response
     {
-        return $this->render('site/home.html.twig');
+        $panier = $session->get('panier', []);
+        if(!empty($panier)){
+            $quantityProducts = array_sum($panier);
+        }else{
+            $quantityProducts = '';
+        }
+        return $this->render('site/home.html.twig', [
+            'quantityProducts' => $quantityProducts,
+        ]);
     }
 
     /**
@@ -45,11 +54,20 @@ class SiteController extends AbstractController
     }
 
     /**
+     * @param SessionInterface $session
      * @return Response
      * @Route("/contact", name="contact")
      */
-    public function contact(): Response
+    public function contact(SessionInterface $session): Response
     {
-        return $this->render('site/contact.html.twig');
+        $panier = $session->get('panier', []);
+        if(!empty($panier)){
+            $quantityProducts = array_sum($panier);
+        }else{
+            $quantityProducts = '';
+        }
+        return $this->render('site/contact.html.twig',[
+            'quantityProducts' => $quantityProducts,
+        ]);
     }
 }

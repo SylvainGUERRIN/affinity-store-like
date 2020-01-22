@@ -9,7 +9,30 @@
             </div>
         </div>
         <div class="row">
-
+            <div class="col-12">
+                <table class="table-striped table-hover table-responsive bg-primary">
+                    <thead>
+                    <tr>
+                        <th scope="col">Produit</th>
+                        <th scope="col">nom du produit</th>
+                        <th scope="col">prix</th>
+                        <th scope="col">quantité</th>
+                        <th scope="col">total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <th scope="row">{{ item.product.id }}</th>
+                        <td>{{ item.product.name }}</td>
+                        <td>{{ item.product.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.product.price * item.quantity }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 {% endblock %}
