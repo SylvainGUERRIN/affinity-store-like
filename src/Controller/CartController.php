@@ -76,14 +76,27 @@ class CartController extends AbstractController
      * @route("/panier/remove/{id}", name="cart_remove")
      * @param $id
      * @param SessionInterface $session
+     * @param Request $request
+     * @return Response
      */
-    public function remove($id, SessionInterface $session): void
+    public function remove($id, SessionInterface $session, Request $request): Response
     {
         $cart = $session->get('panier', []);
 
-        if(!empty($panier[$id])){
-            unset($panier[$id]);
+        if($request->isXmlHttpRequest()){
+            $panier = $session->get('panier', []);
+            if(!empty($panier[$id])){
+                $panier[$id]--;
+                $session->set('panier', $panier);
+                $total = array_sum($panier);
+            }else{
+                $panier[$id] = 1;
+                $session->remove($panier[$id]);
+                $total = array_sum($panier);
+            }
         }
-        $session->set('panier', $panier);
+        return $this->render('user/partials/_cart.html.twig', [
+            'number' => $total,
+        ]);
     }
 }
