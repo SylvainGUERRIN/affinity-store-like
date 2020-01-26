@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
         for ($i = 0; $i < 10; $i++) {
             $product = new Product();
             $product->setName($faker->name)
-                ->setPrice($faker->randomFloat())
+                ->setPrice($faker->randomFloat(2,1,999))
                 ->setDescription($faker->text(350))
                 ->setSlug($faker->slug())
                 ->setCreatedAt($faker->dateTime())
