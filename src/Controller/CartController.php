@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -66,10 +67,11 @@ class CartController extends AbstractController
                 $session->set('panier', $panier);
                 $total = array_sum($panier);
             }
+            return new JsonResponse($total);
         }
-        return $this->render('user/partials/_cart.html.twig', [
-            'number' => $total,
-        ]);
+//        return $this->render('user/partials/_cart.html.twig', [
+//            'number' => $total,
+//        ]);
     }
 
     /**
