@@ -1,0 +1,45 @@
+{% if app.request.attributes.get("_route") == 'article_add_cart' %}
+    {% if modalProducts|default %}
+        {% if modalProducts is not null %}
+            {% for product in modalProducts %}
+                <div class="row mb-1">
+                    <div class="col-12 display-product-modal">
+                        <div class="block-product-img">
+                            <img src="{{ asset('assets/images/products/book.jpg') }}" alt="">
+                        </div>
+                        <div class="block-product-txt">
+                            <h6>{{ product.product.name }}</h6>
+                            <span>{{ product.product.price }} €</span> x <span>{{ product.quantity }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% endif %}
+        {{ total }}
+    {% else %}
+        <p>Aucuns produits sélectionnés</p>
+    {% endif %}
+{% else %}
+    {% if modalProducts|default %}
+        {% if modalProducts is not null %}
+            {% for product in modalProducts %}
+                <div class="row mb-1">
+                    <div class="col-12 display-product-modal">
+                        <div class="block-product-img">
+                            <img src="{{ asset('assets/images/products/book.jpg') }}" alt="">
+                        </div>
+                        <div class="block-product-txt">
+                            <h6>{{ product.product.name }}</h6>
+                            <span>{{ product.product.price }} €</span> x <span>{{ product.quantity }}</span>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% endif %}
+        {{ total }}
+    {% else %}
+        <p>Aucuns produits sélectionnés</p>
+    {% endif %}
+{% endif %}
