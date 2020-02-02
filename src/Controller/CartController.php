@@ -78,26 +78,47 @@ class CartController extends AbstractController
      * @param $id
      * @param SessionInterface $session
      * @param Request $request
+     * @param ProductRepository $productRepository
      * @return Response
      */
-    public function remove($id, SessionInterface $session, Request $request): Response
+    public function remove($id, SessionInterface $session, Request $request, ProductRepository $productRepository): Response
     {
-        $cart = $session->get('panier', []);
-
         if($request->isXmlHttpRequest()){
             $panier = $session->get('panier', []);
-            if(!empty($panier[$id])){
-                $panier[$id]--;
+            if (!empty($panier[$id])) {
+                if ($panier[$id] === 1) {
+                    unset($panier[$id]);
+                }else{
+                    $panier[$id]--;
+                }
                 $session->set('panier', $panier);
-                $total = array_sum($panier);
-            }else{
-                $panier[$id] = 1;
-                $session->remove($panier[$id]);
-                $total = array_sum($panier);
+            }
+            if(empty($panier)){
+                $total = 0;
+                $quantityProducts = 0;
+                $panierWithData = [];
+            }else {
+                $panierWithData = [];
+                foreach ($panier as $element => $quantity) {
+                    $panierWithData[] = [
+                        'product' => $productRepository->find($element),
+                        'quantity' => $quantity
+                    ];
+                }
+
+                $total = 0;
+                $quantityProducts = 0;
+                foreach ($panierWithData as $item) {
+                    $totalItem = $item['product']->getPrice() * $item['quantity'];
+                    $total += $totalItem;
+                    $quantityProducts += $item['quantity'];
+                }
             }
         }
-        return $this->render('user/partials/_cart.html.twig', [
-            'number' => $total,
+        return $this->render('user/partials/_cart-tab.html.twig', [
+            'quantityProducts' => $quantityProducts,
+            'items' => $panierWithData,
+            'total' => $total
         ]);
     }
 }

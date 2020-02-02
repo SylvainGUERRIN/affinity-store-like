@@ -21,7 +21,6 @@
                     <p class="text-white">{{ product.description }}</p>
                 </div>
                 <div class="buttons mb-3">
-{#                    <a href="#" id="cartADD" class="btn btn-green" onclick="addCart('{{ product.name }}')">Ajouter au panier</a>#}
                     <a href="#" id="{{ product.id }}" class="btn btn-green data-id" onclick="return false">Ajouter au panier</a>
                     <a href="#" class="btn btn-blue">En savoir plus</a>
                 </div>
@@ -29,8 +28,5 @@
             </article>
             {% endfor %}
         </div>
-    </div>
-    <div id="ajax-cart">
-        {{ include('user/partials/_cart-modal.html.twig') }}
     </div>
 {% endblock %}

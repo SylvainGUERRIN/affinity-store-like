@@ -22,9 +22,9 @@ class SiteController extends AbstractController
     public function home(SessionInterface $session): Response
     {
         $panier = $session->get('panier', []);
-        if(!empty($panier)){
+        if (!empty($panier)) {
             $quantityProducts = array_sum($panier);
-        }else{
+        } else {
             $quantityProducts = '';
         }
         return $this->render('site/home.html.twig', [
@@ -42,21 +42,21 @@ class SiteController extends AbstractController
     {
         $panier = $session->get('panier', []);
 //        dd($panier);
-        if(!empty($panier)){
+        if (!empty($panier)) {
             $quantityProducts = array_sum($panier);
             $modalProducts = [];
-            foreach ($panier as $id => $quantity){
+            foreach ($panier as $id => $quantity) {
                 $modalProducts[] = [
                     'product' => $productRepository->find($id),
                     'quantity' => $quantity
                 ];
             }
             $total = 0;
-            foreach ($modalProducts as $product){
+            foreach ($modalProducts as $product) {
                 $totalProduct = $product['product']->getPrice() * $product['quantity'];
                 $total += $totalProduct;
             }
-        }else{
+        } else {
             $quantityProducts = '';
             $modalProducts = '';
             $total = '';
@@ -78,12 +78,12 @@ class SiteController extends AbstractController
     public function contact(SessionInterface $session): Response
     {
         $panier = $session->get('panier', []);
-        if(!empty($panier)){
+        if (!empty($panier)) {
             $quantityProducts = array_sum($panier);
-        }else{
+        } else {
             $quantityProducts = '';
         }
-        return $this->render('site/contact.html.twig',[
+        return $this->render('site/contact.html.twig', [
             'quantityProducts' => $quantityProducts,
         ]);
     }

@@ -8,52 +8,8 @@
                 <h1 class="text-white">Votre panier</h1>
             </div>
         </div>
-        {% if items | length > 0 %}
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th>Produit</th>
-                        <th>nom du produit</th>
-                        <th>prix</th>
-                        <th>quantité</th>
-                        <th>total</th>
-                        <th>Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for item in items %}
-                    <tr>
-                        <th>{{ item.product.id }}</th>
-                        <td>{{ item.product.name }}</td>
-                        <td>{{ item.product.price }}</td>
-                        <td>{{ item.quantity }}</td>
-                        <td>{{ item.product.price * item.quantity }}</td>
-                        <td>
-                            <a href="#" class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="4">Total:</td>
-                        <td>{{ total }}</td>
-                        <td></td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
+        <div id="table-cart" class="row">
+            {{ include('user/partials/_cart-tab.html.twig') }}
         </div>
-        {% else %}
-        <div class="row">
-            <div class="col-12">
-                <p>Votre panier est vide</p>
-            </div>
-        </div>
-        {% endif %}
     </div>
 {% endblock %}

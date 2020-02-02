@@ -38,6 +38,7 @@
                         <a href="{{ path('user_connexion') }}" class="nav-link">Connexion</a>
                     </li>
                 {% endif %}
+                {% if not app.request.attributes.get("_route") is same as('cart') %}
                 <li id="cart-nav-item" class="nav-item cart-nav-item">
                     <a href="#" data-toggle="modal" data-target="#exampleModal" class="nav-link cart-link">
                         <svg class="cart-svg" viewBox="0 -36 512.001 512" xmlns="http://www.w3.org/2000/svg">
@@ -46,6 +47,7 @@
                         <span id="cart-count" class="cart-count">{{ quantityProducts }}</span>
                     </a>
                 </li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -59,3 +61,6 @@
         </div>
     </div>
 {% endfor %}
+<div id="ajax-cart">
+    {{ include('user/partials/_cart-modal.html.twig') }}
+</div>
