@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Repository\ProductRepository;
+use App\Service\Cart\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,27 +18,31 @@ class CartController extends AbstractController
     /**
      * @param SessionInterface $session
      * @param ProductRepository $productRepository
+     * @param CartService $cartService
      * @return Response
      * @Route("/panier", name="cart")
      */
-    public function cart(SessionInterface $session, ProductRepository $productRepository)
+    public function cart(SessionInterface $session, ProductRepository $productRepository, CartService $cartService): Response
     {
-        $panier = $session->get('panier', []);
+        /*$panier = $session->get('panier', []);
         $panierWithData = [];
         foreach ($panier as $id => $quantity){
             $panierWithData[] = [
                 'product' => $productRepository->find($id),
                 'quantity' => $quantity
             ];
-        }
+        }*/
+        $panierWithData = $cartService->getFullCart();
 
-        $total = 0;
-        $quantityProducts = 0;
-        foreach ($panierWithData as $item){
-            $totalItem = $item['product']->getPrice() * $item['quantity'];
-            $total += $totalItem;
-            $quantityProducts += $item['quantity'];
-        }
+//        $total = 0;
+//        $quantityProducts = 0;
+//        foreach ($panierWithData as $item){
+//            $totalItem = $item['product']->getPrice() * $item['quantity'];
+//            $total += $totalItem;
+//            $quantityProducts += $item['quantity'];
+//        }
+        $total = $cartService->getTotal();
+        $quantityProducts = $cartService->getQuantity();
 
         return $this->render('site/boutique/cart.html.twig',[
             'quantityProducts' => $quantityProducts,

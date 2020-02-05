@@ -71,10 +71,29 @@ class CartService {
                 'quantity' => $quantity
             ];
         }
+        return $panierWithData;
     }
 
     public function getTotal(): float
     {
+        $total = 0;
+        $panierWithData = $this->getFullCart();
 
+        foreach ($panierWithData as $item){
+            $totalItem = $item['product']->getPrice() * $item['quantity'];
+            $total += $totalItem;
+        }
+        return $total;
+    }
+
+    public function getQuantity()
+    {
+        $quantityProducts = 0;
+        $panierWithData = $this->getFullCart();
+
+        foreach ($panierWithData as $item){
+            $quantityProducts += $item['quantity'];
+        }
+        return $quantityProducts;
     }
 }
