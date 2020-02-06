@@ -22,7 +22,7 @@ class CartController extends AbstractController
      * @return Response
      * @Route("/panier", name="cart")
      */
-    public function cart(SessionInterface $session, ProductRepository $productRepository, CartService $cartService): Response
+    public function cart(CartService $cartService): Response
     {
         /*$panier = $session->get('panier', []);
         $panierWithData = [];
@@ -56,12 +56,13 @@ class CartController extends AbstractController
      * @param $id
      * @param SessionInterface $session
      * @param Request $request
+     * @param CartService $cartService
      * @return Response
      */
-    public function add($id, SessionInterface $session, Request $request): Response
+    public function add($id, Request $request, CartService $cartService): Response
     {
         if($request->isXmlHttpRequest()){
-            $panier = $session->get('panier', []);
+            /*$panier = $session->get('panier', []);
             if(!empty($panier[$id])){
                 $panier[$id]++;
                 $session->set('panier', $panier);
@@ -70,7 +71,9 @@ class CartController extends AbstractController
                 $panier[$id] = 1;
                 $session->set('panier', $panier);
                 $total = array_sum($panier);
-            }
+            }*/
+            $result = $cartService->add($id);
+            $total = array_sum($result);
             return new JsonResponse($total);
         }
 //        return $this->render('user/partials/_cart.html.twig', [
@@ -81,16 +84,18 @@ class CartController extends AbstractController
     /**
      * @route("/panier/remove/{id}", name="cart_remove")
      * @param $id
-     * @param SessionInterface $session
+     * @param CartService $cartService
      * @param Request $request
-     * @param ProductRepository $productRepository
      * @return Response
      */
-    public function remove($id, SessionInterface $session, Request $request, ProductRepository $productRepository): Response
+    public function remove($id, CartService $cartService, Request $request): Response
     {
         if($request->isXmlHttpRequest()){
-            $panier = $session->get('panier', []);
-            if (!empty($panier[$id])) {
+            $result = $cartService->remove($id);
+            $total = array_sum($result);
+            $panierWithData = $cartService->getFullCart();
+            $quantityProducts = $cartService->getQuantity();
+            /*if (!empty($panier[$id])) {
                 if ($panier[$id] === 1) {
                     unset($panier[$id]);
                 }else{
@@ -118,7 +123,7 @@ class CartController extends AbstractController
                     $total += $totalItem;
                     $quantityProducts += $item['quantity'];
                 }
-            }
+            }*/
         }
         return $this->render('user/partials/_cart-tab.html.twig', [
             'quantityProducts' => $quantityProducts,

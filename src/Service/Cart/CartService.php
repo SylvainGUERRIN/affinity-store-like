@@ -18,8 +18,9 @@ class CartService {
 
     /**
      * @param int $id
+     * @return mixed
      */
-    public function add(int $id): void
+    public function add(int $id)
     {
         $panier = $this->session->get('panier', []);
         if(!empty($panier[$id])){
@@ -27,14 +28,15 @@ class CartService {
         }else{
             $panier[$id] = 1;
         }
-
         $this->session->set('panier', $panier);
+        return $panier;
     }
 
     /**
      * @param int $id
+     * @return mixed
      */
-    public function less(int $id): void
+    public function less(int $id)
     {
         $panier = $this->session->get('panier', []);
         if (!empty($panier[$id])) {
@@ -45,20 +47,21 @@ class CartService {
             }
             $this->session->set('panier', $panier);
         }
-
+        return $panier;
     }
 
     /**
      * @param int $id
+     * @return mixed
      */
-    public function remove(int $id): void
+    public function remove(int $id)
     {
         $panier = $this->session->get('panier', []);
         if (!empty($panier[$id])) {
             unset($panier[$id]);
         }
         $this->session->set('panier', $panier);
-
+        return $panier;
     }
 
     public function getFullCart(): array
