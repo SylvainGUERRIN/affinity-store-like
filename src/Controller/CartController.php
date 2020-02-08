@@ -52,6 +52,22 @@ class CartController extends AbstractController
     }
 
     /**
+     * @route("/panier/less/{id}", name="cart_less")
+     * @param $id
+     * @param Request $request
+     * @param CartService $cartService
+     * @return Response
+     */
+    public function less($id, Request $request, CartService $cartService): Response
+    {
+        if($request->isXmlHttpRequest()){
+            $result = $cartService->less($id);
+            $total = array_sum($result);
+            return new JsonResponse($total);
+        }
+    }
+
+    /**
      * @route("/panier/remove/{id}", name="cart_remove")
      * @param $id
      * @param CartService $cartService
@@ -61,8 +77,52 @@ class CartController extends AbstractController
     public function remove($id, CartService $cartService, Request $request): Response
     {
         if($request->isXmlHttpRequest()){
-            $result = $cartService->remove($id);
-            $total = array_sum($result);
+            $cartService->remove($id);
+            $total = $cartService->getTotalPrice();
+            $panierWithData = $cartService->getFullCart();
+            $quantityProducts = $cartService->getQuantity();
+        }
+        return $this->render('user/partials/_cart-tab.html.twig', [
+            'quantityProducts' => $quantityProducts,
+            'items' => $panierWithData,
+            'total' => $total
+        ]);
+    }
+
+    /**
+     * @route("/panier/less-tab/{id}", name="cart_tab_less")
+     * @param $id
+     * @param CartService $cartService
+     * @param Request $request
+     * @return Response
+     */
+    public function lessTabCart($id, CartService $cartService, Request $request): Response
+    {
+        if($request->isXmlHttpRequest()){
+            $cartService->less($id);
+            $total = $cartService->getTotalPrice();
+            $panierWithData = $cartService->getFullCart();
+            $quantityProducts = $cartService->getQuantity();
+        }
+        return $this->render('user/partials/_cart-tab.html.twig', [
+            'quantityProducts' => $quantityProducts,
+            'items' => $panierWithData,
+            'total' => $total
+        ]);
+    }
+
+    /**
+     * @route("/panier/add-tab/{id}", name="cart_tab_add")
+     * @param $id
+     * @param CartService $cartService
+     * @param Request $request
+     * @return Response
+     */
+    public function addTabCart($id, CartService $cartService, Request $request): Response
+    {
+        if($request->isXmlHttpRequest()){
+            $cartService->add($id);
+            $total = $cartService->getTotalPrice();
             $panierWithData = $cartService->getFullCart();
             $quantityProducts = $cartService->getQuantity();
         }
