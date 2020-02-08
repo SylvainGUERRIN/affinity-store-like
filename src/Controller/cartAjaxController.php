@@ -24,29 +24,11 @@ class cartAjaxController extends AbstractController
     public function articleAddCart(Request $request, CartService $cartService): Response
     {
         if($request->isXmlHttpRequest()) {
-            //$panier = $session->get('panier', []);
-//            dd($panier);
-            //pas d'ajout simplement mis à jour du panier dans la modale
-            //$result = $cartService->add($id);
-            //$total = array_sum($result);
             $panierWithData = $cartService->getFullCart();
             if (!empty($panierWithData)) {
                 $quantityProducts = $cartService->getQuantity();
-                $total = array_sum($panierWithData);
+                $total = $cartService->getTotalPrice();
                 $modalProducts = $panierWithData;
-                /*$quantityProducts = array_sum($panier);
-                $modalProducts = [];
-                foreach ($panier as $id => $quantity) {
-                    $modalProducts[] = [
-                        'product' => $productRepository->find($id),
-                        'quantity' => $quantity
-                    ];
-                }
-                $total = 0;
-                foreach ($modalProducts as $product) {
-                    $totalProduct = $product['product']->getPrice() * $product['quantity'];
-                    $total += $totalProduct;
-                }*/
             } else {
                 $quantityProducts = '';
                 $modalProducts = '';

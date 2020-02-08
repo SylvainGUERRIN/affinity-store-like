@@ -71,15 +71,15 @@
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.product.price * item.quantity }}</td>
                         <td>
-                            <a id="{{ item.product.id }}" href="#" class="btn btn-danger btn-sm data-minus">
+                            <button id="{{ item.product.id }}" class="btn btn-danger btn-sm data-minus" onclick="return false;">
                                 <i class="fas fa-minus"></i>
-                            </a>
-                            <a id="{{ item.product.id }}" href="#" class="btn btn-success btn-sm data-plus">
+                            </button>
+                            <button id="{{ item.product.id }}" class="btn btn-success btn-sm data-plus">
                                 <i class="fas fa-plus"></i>
-                            </a>
-                            <a id="{{ item.product.id }}" href="#" class="btn btn-danger btn-sm data-remove">
+                            </button>
+                            <button id="{{ item.product.id }}" class="btn btn-danger btn-sm data-remove">
                                 <i class="fas fa-trash"></i>
-                            </a>
+                            </button>
                         </td>
                     </tr>
                 {% endfor %}
