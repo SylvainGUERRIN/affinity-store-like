@@ -16,7 +16,7 @@ class PayController extends AbstractController
      * @param CartService $cartService
      * @return Response
      */
-    public function index(CartService $cartService)
+    public function index(CartService $cartService): Response
     {
         /*$panier = $cartService->getFullCart();
         dd($panier);*/

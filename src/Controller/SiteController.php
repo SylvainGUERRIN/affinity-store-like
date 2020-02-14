@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\ProductRepository;
+use App\Service\Cart\CartService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -15,76 +16,43 @@ use Symfony\Component\Routing\Annotation\Route;
 class SiteController extends AbstractController
 {
     /**
-     * @param SessionInterface $session
+     * @param CartService $cartService
      * @return Response
      * @Route("/", name="home")
      */
-    public function home(SessionInterface $session): Response
+    public function home(CartService $cartService): Response
     {
-        $panier = $session->get('panier', []);
-        if (!empty($panier)) {
-            $quantityProducts = array_sum($panier);
-        } else {
-            $quantityProducts = '';
-        }
         return $this->render('site/home.html.twig', [
-            'quantityProducts' => $quantityProducts,
+            'quantityProducts' => $cartService->getQuantity(),
         ]);
     }
 
     /**
      * @param ProductRepository $productRepository
      * @param SessionInterface $session
+     * @param CartService $cartService
      * @return Response
      * @Route("/boutique", name="boutique")
      */
-    public function boutique(ProductRepository $productRepository, SessionInterface $session)
+    public function boutique(ProductRepository $productRepository, SessionInterface $session, CartService $cartService): Response
     {
-        $panier = $session->get('panier', []);
-//        dd($panier);
-        if (!empty($panier)) {
-            $quantityProducts = array_sum($panier);
-            $modalProducts = [];
-            foreach ($panier as $id => $quantity) {
-                $modalProducts[] = [
-                    'product' => $productRepository->find($id),
-                    'quantity' => $quantity
-                ];
-            }
-            $total = 0;
-            foreach ($modalProducts as $product) {
-                $totalProduct = $product['product']->getPrice() * $product['quantity'];
-                $total += $totalProduct;
-            }
-        } else {
-            $quantityProducts = '';
-            $modalProducts = '';
-            $total = '';
-        }
-        $allProducts = $productRepository->findAll();
         return $this->render('site/boutique/index.html.twig', [
-            'products' => $allProducts,
-            'quantityProducts' => $quantityProducts,
-            'modalProducts' => $modalProducts,
-            'total' => $total
+            'products' => $productRepository->findAll(),
+            'quantityProducts' => $cartService->getQuantity(),
+            'modalProducts' => $cartService->getFullCart(),
+            'total' => $cartService->getTotalPrice()
         ]);
     }
 
     /**
-     * @param SessionInterface $session
+     * @param CartService $cartService
      * @return Response
      * @Route("/contact", name="contact")
      */
-    public function contact(SessionInterface $session): Response
+    public function contact(CartService $cartService): Response
     {
-        $panier = $session->get('panier', []);
-        if (!empty($panier)) {
-            $quantityProducts = array_sum($panier);
-        } else {
-            $quantityProducts = '';
-        }
         return $this->render('site/contact.html.twig', [
-            'quantityProducts' => $quantityProducts,
+            'quantityProducts' => $cartService->getQuantity(),
         ]);
     }
 }

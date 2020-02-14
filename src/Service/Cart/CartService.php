@@ -90,7 +90,7 @@ class CartService {
 
     public function getQuantity()
     {
-        $quantityProducts = 0;
+        $quantityProducts = null;
         $panierWithData = $this->getFullCart();
 
         foreach ($panierWithData as $item){
