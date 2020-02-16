@@ -51,6 +51,11 @@ class Order
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $purchase_confirm;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +141,18 @@ class Order
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getPurchaseConfirm(): ?bool
+    {
+        return $this->purchase_confirm;
+    }
+
+    public function setPurchaseConfirm(?bool $purchase_confirm): self
+    {
+        $this->purchase_confirm = $purchase_confirm;
 
         return $this;
     }
