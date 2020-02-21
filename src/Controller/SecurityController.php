@@ -11,6 +11,7 @@ use App\Form\PasswordUpdateType;
 use App\Repository\UserRepository;
 use App\Entity\PasswordUpdate;
 use App\Entity\PasswordRecup;
+use App\Service\Cart\CartService;
 use Symfony\Component\Form\FormError;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,9 +35,10 @@ class SecurityController extends AbstractController
      *
      * @param AuthenticationUtils $helper
      * @param Security $security
+     * @param CartService $cartService
      * @return Response
      */
-    public function connexion(AuthenticationUtils $helper, Security $security): Response
+    public function connexion(AuthenticationUtils $helper, Security $security, CartService $cartService): Response
     {
         if ($security->isGranted('ROLE_USER')) {
             return $this->redirectToRoute('member_space');
@@ -45,6 +47,7 @@ class SecurityController extends AbstractController
 //        $error = $utils->getLastAuthenticationError();
 //        $username = $utils->getLastUsername();
         return $this->render('user/account/login.html.twig', [
+            'quantityProducts' => $cartService->getQuantity(),
 //            'hasError' => $error !== null,
 //            'username' => $username
             // last username entered by the user (if any)
@@ -69,12 +72,14 @@ class SecurityController extends AbstractController
      *
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
+     * @param CartService $cartService
      * @return Response
-     * @throws \Exception
      */
     public function inscription(
         Request $request,
-        UserPasswordEncoderInterface $encoder): Response
+        UserPasswordEncoderInterface $encoder,
+        CartService $cartService
+    ): Response
     {
         $user = new User();
 
@@ -100,6 +105,7 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('user/account/inscription.html.twig', [
+            'quantityProducts' => $cartService->getQuantity(),
             'form' => $form->createView()
         ]);
     }
@@ -107,10 +113,10 @@ class SecurityController extends AbstractController
     /**
      * @Route("/profil", name="user_profil")
      * @param Request $request
+     * @param CartService $cartService
      * @return Response
-     * @throws \Exception
      */
-    public function profil(Request $request): Response
+    public function profil(Request $request, CartService $cartService): Response
     {
         $user = $this->getUser();
 //        $oldImage = $user->getAvatarUrl();
@@ -136,6 +142,7 @@ class SecurityController extends AbstractController
 
         return $this->render('user/account/profil.html.twig', [
             'controller_name' => 'AccountController',
+            'quantityProducts' => $cartService->getQuantity(),
             'form' => $form->createView()
         ]);
     }
@@ -147,11 +154,14 @@ class SecurityController extends AbstractController
      *
      * @param Request $request
      * @param UserPasswordEncoderInterface $encoder
+     * @param CartService $cartService
      * @return Response
      */
     public function updatePassword(
         Request $request,
-        UserPasswordEncoderInterface $encoder): Response
+        UserPasswordEncoderInterface $encoder,
+        CartService $cartService
+    ): Response
     {
         $passwordUpdate = new PasswordUpdate();
 
@@ -180,16 +190,21 @@ class SecurityController extends AbstractController
         }
 
         return $this->render('user/account/pass.html.twig', [
+            'quantityProducts' => $cartService->getQuantity(),
             'form' => $form->createView()
         ]);
     }
 
     /**
      * @Route("/member-space", name="member_space")
+     * @param CartService $cartService
+     * @return Response
      */
-    public function member()
+    public function member(CartService $cartService)
     {
-        return $this->render('user/member.html.twig');
+        return $this->render('user/member.html.twig',[
+            'quantityProducts' => $cartService->getQuantity()
+        ]);
     }
 
 }

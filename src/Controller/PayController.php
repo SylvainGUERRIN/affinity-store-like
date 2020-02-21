@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PayController extends AbstractController
 {
     /**
-     * @Route("/order", name="index_order")
+     * @Route("/paiement", name="pay_index")
      * @param CartService $cartService
      * @return Response
      */
