@@ -24,7 +24,7 @@ class Product
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $reference;
+    private $ref;
 
     /**
      * @ORM\Column(type="float")
@@ -78,14 +78,14 @@ class Product
         return $this;
     }
 
-    public function getReference(): ?string
+    public function getRef(): ?string
     {
-        return $this->reference;
+        return $this->ref;
     }
 
-    public function setReference(?string $reference): self
+    public function setRef(?string $ref): self
     {
-        $this->reference = $reference;
+        $this->ref = $ref;
 
         return $this;
     }

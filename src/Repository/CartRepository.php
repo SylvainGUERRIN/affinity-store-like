@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Cart;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * @method Cart|null find($id, $lockMode = null, $lockVersion = null)
@@ -19,22 +20,26 @@ class CartRepository extends ServiceEntityRepository
         parent::__construct($registry, Cart::class);
     }
 
-    // /**
-    //  * @return Cart[] Returns an array of Cart objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param $product
+     * @param $user
+     * @return Cart Returns an Cart object or null
+     * @throws NonUniqueResultException
+     */
+
+    public function findByUserAndProduct($product, $user): ?Cart
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('c.product_name = :product')
+            ->setParameter('product', $product)
+            ->andWhere('c.user = :user')
+            ->setParameter('user', $user)
+            //->orderBy('c.id', 'ASC')
+            //->setMaxResults(10)
             ->getQuery()
-            ->getResult()
+            ->getOneOrNullResult()
         ;
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Cart
