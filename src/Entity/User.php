@@ -65,7 +65,7 @@ class User implements UserInterface, \Serializable
     private $phone;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Paiement", mappedBy="user")
      */
     private $orders;
 
@@ -208,14 +208,14 @@ class User implements UserInterface, \Serializable
     }
 
     /**
-     * @return Collection|Order[]
+     * @return Collection|Paiement[]
      */
     public function getOrders(): Collection
     {
         return $this->orders;
     }
 
-    public function addOrder(Order $order): self
+    public function addOrder(Paiement $order): self
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
@@ -225,7 +225,7 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeOrder(Paiement $order): self
     {
         if ($this->orders->contains($order)) {
             $this->orders->removeElement($order);

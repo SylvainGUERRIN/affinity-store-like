@@ -41,6 +41,39 @@ class CartRepository extends ServiceEntityRepository
         ;
     }
 
+    /**
+     * @param $product
+     * @param $user
+     * @return array Returns Cart array
+     */
+
+    public function findByUserAndAncientProduct($product, $user): array
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.product_name != :product')
+            ->setParameter('product', $product)
+            ->andWhere('c.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @param $user
+     * @return array Returns Cart array
+     */
+
+    public function findByUserID($user): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.user = :user')
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     /*
     public function findOneBySomeField($value): ?Cart
     {
