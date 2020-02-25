@@ -2,8 +2,58 @@
 {% block title %}Confirmer votre commande{% endblock %}
 
 {% block body %}
-    <h2>Vérification et validation de votre commande</h2>
-    <h2>Adresse de livraison</h2>
-    <h2>Date de livraison</h2>
-    <h2>Mode de paiement</h2>
+    <div class="container">
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h2>Adresse de livraison</h2>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <p>{{ userStreet }}</p>
+                        <p>{{ userCP }} {{ userTown }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center mt-5">
+                <h2>Date de livraison</h2>
+                <div class="card">
+                    <div class="card-body">
+                        <p>{{ deliveryDate | date('d/m/Y H:i:s') }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 text-center mt-5">
+                <h2>Mode de paiement</h2>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Carte de crédit
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                            <label class="form-check-label" for="exampleRadios2">
+                                Chéque bancaire
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit">Payer</button>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

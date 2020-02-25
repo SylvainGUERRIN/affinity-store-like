@@ -56,6 +56,21 @@ class Paiement
      */
     private $purchase_confirm;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $paiement_method;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $deliveryAt;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\PaiementMethod", mappedBy="paiement", cascade={"persist", "remove"})
+     */
+    private $paiementMethod;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -153,6 +168,30 @@ class Paiement
     public function setPurchaseConfirm(?bool $purchase_confirm): self
     {
         $this->purchase_confirm = $purchase_confirm;
+
+        return $this;
+    }
+
+    public function getPaiementMethod(): ?string
+    {
+        return $this->paiement_method;
+    }
+
+    public function setPaiementMethod(?string $paiement_method): self
+    {
+        $this->paiement_method = $paiement_method;
+
+        return $this;
+    }
+
+    public function getDeliveryAt(): ?\DateTimeInterface
+    {
+        return $this->deliveryAt;
+    }
+
+    public function setDeliveryAt(?\DateTimeInterface $deliveryAt): self
+    {
+        $this->deliveryAt = $deliveryAt;
 
         return $this;
     }

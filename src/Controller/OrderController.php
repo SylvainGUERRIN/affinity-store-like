@@ -27,7 +27,6 @@ class OrderController extends AbstractController
         $user = $this->getUser();
 
         if (is_object($user) === false) {
-//            dd(is_object($user));
             $this->addFlash('danger',
                 "Vous devez être connecté pour finaliser votre paiement !"
             );
@@ -74,7 +73,14 @@ class OrderController extends AbstractController
 
         }
 //        dd($order);
+        $dateNow = new \DateTime('now');
+        $deliveryDate = $dateNow->modify('+2 days');
 
-        return $this->render('site/order/index.html.twig');
+        return $this->render('site/order/index.html.twig',[
+            'userStreet' => $user->getAddress(),
+            'userCP' => $user->getCp(),
+            'userTown' => $user->getTown(),
+            'deliveryDate' => $deliveryDate
+        ]);
     }
 }
