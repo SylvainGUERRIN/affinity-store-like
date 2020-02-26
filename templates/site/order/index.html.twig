@@ -7,11 +7,23 @@
             <div class="col-12 text-center">
                 <h2>Adresse de livraison</h2>
             </div>
-            <div class="col-4">
+            <div class="col-6">
                 <div class="card">
                     <div class="card-body">
                         <p>{{ userStreet }}</p>
                         <p>{{ userCP }} {{ userTown }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        {{ form_start(formDeliveryAddress) }}
+                        {{ form_row(formDeliveryAddress.address) }}
+                        {{ form_row(formDeliveryAddress.cp) }}
+                        {{ form_row(formDeliveryAddress.town) }}
+                        <button type="submit" class="btn btn-color">Choisir une autre addresse pour la livraison</button>
+                        {{ form_end(formDeliveryAddress) }}
                     </div>
                 </div>
             </div>
