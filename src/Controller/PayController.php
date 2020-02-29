@@ -27,10 +27,10 @@ class PayController extends AbstractController
         $panier = $cartService->getFullCart();
 //        dd($panier);
 
-//        systéme de paiement
+//        systéme de paiement, le laisser sans les clés api
 
-        //envoyer les orders après le paiement
-        /*foreach ($panier as $item) {
+        //envoyer les orders après si le paiement est ok
+        foreach ($panier as $item) {
             $order = new Paiement();
             $order->setUser($user);
             $order->setProductName($item['product']->getName());
@@ -46,7 +46,7 @@ class PayController extends AbstractController
             $em->persist($order);
             $em->flush();
 //            dd($order);
-        }*/
+        }
 
         //envoyer le systéme de paiement avec stripe grâce à http component
         //une fois le paiement validé supprimer les carts correspondants
