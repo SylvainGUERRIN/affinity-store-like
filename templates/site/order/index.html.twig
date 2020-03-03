@@ -42,8 +42,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                            <label class="form-check-label" for="exampleRadios2">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="CB" value="option2">
+                            <label class="form-check-label" for="CB">
                                 Carte de crédit
                             </label>
                         </div>
@@ -54,8 +54,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                            <label class="form-check-label" for="exampleRadios2">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="CHEQ" value="option2">
+                            <label class="form-check-label" for="CHEQ">
                                 Chéque bancaire
                             </label>
                         </div>
@@ -63,9 +63,14 @@
                 </div>
             </div>
             <div class="col-12 mt-5 text-center">
-                <a href="{{ path('pay_index') }}" class="btn btn-color" type="submit">Payer</a>
+{#                <a id="pay-method" href="{{ path('pay_index') }}" class="btn btn-color" type="submit">Payer</a>#}
+                <a id="pay-method" href="#" class="btn btn-color" type="submit">Payer</a>
             </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/pay-method.js') }}"></script>
 {% endblock %}
