@@ -66,11 +66,6 @@ class Paiement
      */
     private $deliveryAt;
 
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\PaiementMethod", mappedBy="paiement", cascade={"persist", "remove"})
-     */
-    private $paiementMethod;
-
     public function getId(): ?int
     {
         return $this->id;

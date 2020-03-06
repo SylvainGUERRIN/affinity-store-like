@@ -13,7 +13,7 @@ class PaiementMethodType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('paiement')
+            ->add('user')
         ;
     }
 

@@ -74,6 +74,11 @@ class User implements UserInterface, \Serializable
      */
     private $deliveryAddresses;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\PaiementMethod", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $paiementMethod;
+
     public function __construct()
     {
         $this->carts = new ArrayCollection();
@@ -334,5 +339,23 @@ class User implements UserInterface, \Serializable
     public function __toString()
     {
         return (string) $this->username;
+    }
+
+    public function getPaiementMethod(): ?PaiementMethod
+    {
+        return $this->paiementMethod;
+    }
+
+    public function setPaiementMethod(?PaiementMethod $paiementMethod): self
+    {
+        $this->paiementMethod = $paiementMethod;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $paiementMethod ? null : $this;
+        if ($paiementMethod->getUser() !== $newUser) {
+            $paiementMethod->setUser($newUser);
+        }
+
+        return $this;
     }
 }

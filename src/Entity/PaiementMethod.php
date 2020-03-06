@@ -22,9 +22,9 @@ class PaiementMethod
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Paiement", inversedBy="paiementMethod", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="paiementMethod", cascade={"persist", "remove"})
      */
-    private $paiement;
+    private $user;
 
     public function getId(): ?int
     {
@@ -43,14 +43,14 @@ class PaiementMethod
         return $this;
     }
 
-    public function getPaiement(): ?Paiement
+    public function getUser(): ?User
     {
-        return $this->paiement;
+        return $this->user;
     }
 
-    public function setPaiement(?Paiement $paiement): self
+    public function setUser(?User $user): self
     {
-        $this->paiement = $paiement;
+        $this->user = $user;
 
         return $this;
     }
