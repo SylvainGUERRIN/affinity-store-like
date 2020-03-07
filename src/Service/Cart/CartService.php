@@ -98,4 +98,11 @@ class CartService {
         }
         return $quantityProducts;
     }
+
+    public function empty(): bool
+    {
+        // le but est de vider le panier
+        $this->session->remove('panier');
+        return true;
+    }
 }

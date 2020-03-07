@@ -38,28 +38,28 @@ class PayController extends AbstractController
 
         //envoyer le systéme de paiement avec stripe grâce à http component
         //une fois le paiement validé supprimer les carts correspondants
-        $address = $session->get("command-address");
+        $address = $session->get('command-address');
         if ($request->request->get('stripeToken')) {
             //création du paiement
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
-            \Stripe\Stripe::setApiKey('sk_test_pdwCzoUMCe5zZVGbQljunwbD00gTaI3cbq');
+            \Stripe\Stripe::setApiKey('sk_test');
 
             // Token is created using Checkout or Elements!
             // Get the payment token ID submitted by the form:
             $token = $request->request->get('stripeToken');
             $charge = \Stripe\Charge::create([
-                'amount' => $cartService->getGrandTotal() * 100,
+                'amount' => $cartService->getTotalPrice() * 100,
                 'currency' => 'eur',
                 'description' => 'Example charge',
                 'source' => $token,
             ]);
-            if ($charge->status === "succeeded") {
-                return $this->redirectToRoute("command_process");
+            if ($charge->status === 'succeeded') {
+                return $this->redirectToRoute('command_process');
             }
         }
-        return $this->render("command/payment.html.twig", [
-            'total' => $cartService->getGrandTotal(),
+        return $this->render('site/command/payment.html.twig', [
+            'total' => $cartService->getTotalPrice(),
             'address' => $address
         ]);
 
@@ -105,9 +105,9 @@ class PayController extends AbstractController
         }
 
         $this->addFlash("success", "Vous serez livré à " . $user->getAddress());
-        //create empty method in cart service
+        //vide le panier qui est dans la session
         $cartService->empty();
 
-        return $this->render("command/success.html.twig");
+        return $this->render('site/command/success.html.twig');
     }
 }
