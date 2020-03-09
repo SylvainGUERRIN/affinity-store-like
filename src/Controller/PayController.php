@@ -9,8 +9,9 @@ use App\Entity\User;
 use App\Repository\ProductRepository;
 use App\Service\Cart\CartService;
 use DateTime;
-use Doctrine\Common\Persistence\ObjectManager;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Stripe\Exception\ApiErrorException;
+use Stripe\PaymentIntent;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,13 +28,14 @@ class PayController extends AbstractController
      * @param Request $request
      * @return Response
      * @throws ApiErrorException
+     * @IsGranted("ROLE_USER")
      */
     public function index(CartService $cartService, SessionInterface $session, Request $request): Response
     {
         /** @var User $user */
         $user = $this->getUser();
 
-        $panier = $cartService->getFullCart();
+//        $panier = $cartService->getFullCart();
 //        dd($panier);
 
         //envoyer le systéme de paiement avec stripe grâce à http component
@@ -48,7 +50,18 @@ class PayController extends AbstractController
             // Token is created using Checkout or Elements!
             // Get the payment token ID submitted by the form:
             $token = $request->request->get('stripeToken');
-            $charge = \Stripe\Charge::create([
+
+            //try payment intend
+            \Stripe\PaymentIntent::create([
+                'amount' => $cartService->getTotalPrice() * 100,
+                'currency' => 'eur',
+                'payment_method_types' => ['card'],
+            ]);
+
+            dd(PaymentIntent::STATUS_REQUIRES_CAPTURE);
+
+            //just for charge payment
+            /*$charge = \Stripe\Charge::create([
                 'amount' => $cartService->getTotalPrice() * 100,
                 'currency' => 'eur',
                 'description' => 'Example charge',
@@ -56,7 +69,7 @@ class PayController extends AbstractController
             ]);
             if ($charge->status === 'succeeded') {
                 return $this->redirectToRoute('command_process');
-            }
+            }*/
         }
         return $this->render('site/command/payment.html.twig', [
             'total' => $cartService->getTotalPrice(),
@@ -68,7 +81,6 @@ class PayController extends AbstractController
     /**
      * @Route("/process", name="command_process")
      *
-     * @param ObjectManager $manager
      * @param SessionInterface $session
      * @param CartService $cartService
      * @param ProductRepository $repo
@@ -77,7 +89,6 @@ class PayController extends AbstractController
      * @throws \Exception
      */
     public function process(
-        ObjectManager $manager,
         SessionInterface $session,
         CartService $cartService,
         ProductRepository $repo,
@@ -108,6 +119,8 @@ class PayController extends AbstractController
         //vide le panier qui est dans la session
         $cartService->empty();
 
-        return $this->render('site/command/success.html.twig');
+        return $this->render('site/command/success.html.twig',[
+            'quantityProducts' => ''
+        ]);
     }
 }

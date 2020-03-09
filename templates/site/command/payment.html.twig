@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends "user/partials/base.html.twig" %}
 {% block stylesheets %}
     <style>
         .StripeElement {
@@ -61,6 +61,8 @@
                 <div class="col">
                     <button class="btn btn-success">Payer
                         {{ total | price }}</button>
+{#                    <button class="btn btn-success">Payer#}
+{#                        {{ total }}</button>#}
                 </div>
 
             </div>
@@ -77,7 +79,7 @@
 
     <script>
         // Create a Stripe client.
-        var stripe = Stripe('pk_test_XYUhmmBcQY6ot53eNvRP5oDd00Davk7808');
+        var stripe = Stripe('pk_test');
         // Create an instance of Elements.
         var elements = stripe.elements();
         // Custom styling can be passed to options when creating an Element.

@@ -105,6 +105,9 @@
     "egulias/email-validator": {
         "version": "2.1.13"
     },
+    "erusev/parsedown": {
+        "version": "1.7.4"
+    },
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
@@ -123,6 +126,9 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v5.1.1"
     },
+    "league/uri-parser": {
+        "version": "1.4.1"
+    },
     "liip/imagine-bundle": {
         "version": "1.8",
         "recipe": {
@@ -135,6 +141,9 @@
             "./config/packages/liip_imagine.yaml",
             "./config/routes/liip_imagine.yaml"
         ]
+    },
+    "masterminds/html5": {
+        "version": "2.7.0"
     },
     "monolog/monolog": {
         "version": "1.25.3"
@@ -548,6 +557,21 @@
     },
     "symfony/yaml": {
         "version": "v4.4.2"
+    },
+    "tgalopin/html-sanitizer": {
+        "version": "1.4.0"
+    },
+    "tgalopin/html-sanitizer-bundle": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "26a72f38eede2c53b5d3ccbed5c150e10a93268d"
+        },
+        "files": [
+            "./config/packages/html_sanitizer.yaml"
+        ]
     },
     "twig/extra-bundle": {
         "version": "v3.0.1"
