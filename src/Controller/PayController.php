@@ -46,7 +46,8 @@ class PayController extends AbstractController
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
 //            \Stripe\Stripe::setApiKey('sk_test');
-            \Stripe\Stripe::setApiKey(getenv('STRIPE_SECRET_KEY'));
+//            dd($_ENV['STRIPE_SECRET_KEY']);
+            \Stripe\Stripe::setApiKey($_ENV['STRIPE_SECRET_KEY']);
 
             // Token is created using Checkout or Elements!
             // Get the payment token ID submitted by the form:
@@ -60,7 +61,7 @@ class PayController extends AbstractController
             ]);
 
             //try to dd for look to response api
-            dd($intent->toArray());
+//            dd($intent->toArray());
 
             //just for charge payment
             /*$charge = \Stripe\Charge::create([
@@ -76,7 +77,7 @@ class PayController extends AbstractController
         return $this->render('site/command/payment.html.twig', [
             'total' => $cartService->getTotalPrice(),
             'address' => $address,
-            'pk_test' => \Stripe\Stripe::setApiKey(getenv('STRIPE_PUBLISHABLE_KEY'))
+//            'pk_test' => \Stripe\Stripe::setApiKey(getenv('STRIPE_PUBLISHABLE_KEY'))
         ]);
 
     }
