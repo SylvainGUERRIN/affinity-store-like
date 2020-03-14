@@ -34,14 +34,15 @@ class PayController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
+//        dd($user->getMail());
 
 //        $panier = $cartService->getFullCart();
 //        dd($panier);
 
         //envoyer le systéme de paiement avec stripe grâce à http component
         //une fois le paiement validé supprimer les carts correspondants
-        $address = $session->get('command-address');
-        if ($request->request->get('stripeToken')) {
+//        $address = $session->get('command-address');
+//        if ($request->request->get('stripeToken')) {
             //création du paiement
             // Set your secret key: remember to change this to your live secret key in production
             // See your keys here: https://dashboard.stripe.com/account/apikeys
@@ -54,14 +55,40 @@ class PayController extends AbstractController
             $token = $request->request->get('stripeToken');
 
             //try payment intend
-            $intent = \Stripe\PaymentIntent::create([
-                'amount' => $cartService->getTotalPrice() * 100,
-                'currency' => 'eur',
-                'payment_method_types' => ['card'],
-            ]);
+//            $intent = \Stripe\PaymentIntent::create([
+//                'amount' => $cartService->getTotalPrice() * 100,
+//                'currency' => 'eur',
+//                'payment_method_types' => ['card'],
+//            ]);
 
             //try to dd for look to response api
 //            dd($intent->toArray());
+
+            $create = \Stripe\Checkout\Session::create([
+                'customer_email' => $user->getMail(),
+                'payment_method_types' => ['card'],
+                'line_items' => [[
+                    'name' => 'T-shirt',
+                    'description' => 'Comfortable cotton t-shirt',
+                    'images' => ['https://example.com/t-shirt.png'],
+                    'amount' => $cartService->getTotalPrice() * 100,
+                    'currency' => 'eur',
+                    'quantity' => 1
+                ]],
+//                'payment_intent_data' => [
+//                    'capture_method' => 'manual',
+//                ],
+                'success_url' => 'https://example.com/success',
+                'cancel_url' => 'https://example.com/cancel',
+            ]);
+
+//            pour retrouver une session du create, enlever le cs-test et mettre celui qui correspond au produit
+//            pour la récupérer il faut capturer la variable CHECKOUT_SESSION_ID
+//            $id = \Stripe\Checkout\Session::retrieve('cs_test_0aYsFck6Ya1aWsvsiyAb8v4FkE9MZxH0cgP8FhbNOLnlx4j8fsKHqEYY');
+
+
+            //la récupération de la charge marche
+//            dd($create);
 
             //just for charge payment
             /*$charge = \Stripe\Charge::create([
@@ -73,10 +100,16 @@ class PayController extends AbstractController
             if ($charge->status === 'succeeded') {
                 return $this->redirectToRoute('command_process');
             }*/
-        }
+
+            //pour récupérer l'id de la session et l'envoyer au js du template
+            $CHECKOUT_SESSION_ID = $create->id;
+//            dd($CHECKOUT_SESSION_ID);
+
+//        }
         return $this->render('site/command/payment.html.twig', [
             'total' => $cartService->getTotalPrice(),
-            'address' => $address,
+//            'address' => $address,
+            'CHECKOUT_SESSION_ID' => $CHECKOUT_SESSION_ID
 //            'pk_test' => \Stripe\Stripe::setApiKey(getenv('STRIPE_PUBLISHABLE_KEY'))
         ]);
 
