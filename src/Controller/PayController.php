@@ -75,10 +75,12 @@ class PayController extends AbstractController
                     'currency' => 'eur',
                     'quantity' => 1
                 ]],
-//                'payment_intent_data' => [
-//                    'capture_method' => 'manual',
-//                ],
-                'success_url' => 'https://example.com/success',
+//              add this to indicate separate authorization and capture
+                'payment_intent_data' => [
+                    'capture_method' => 'manual',
+                ],
+//                urls for success and cancel
+                'success_url' => 'http://localhost:8000/process',
                 'cancel_url' => 'https://example.com/cancel',
             ]);
 
