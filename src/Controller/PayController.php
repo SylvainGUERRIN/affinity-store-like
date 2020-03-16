@@ -80,7 +80,7 @@ class PayController extends AbstractController
                     'capture_method' => 'manual',
                 ],
 //                urls for success and cancel
-                'success_url' => 'http://localhost:8000/process',
+                'success_url' => 'https://localhost:8000/process',
                 'cancel_url' => 'https://example.com/cancel',
             ]);
 
@@ -90,7 +90,8 @@ class PayController extends AbstractController
 
 
             //la récupération de la charge marche
-//            dd($create);
+        //a tester pour enregistrer l'id et le charger plus tard
+//            dd($create->id);
 
             //just for charge payment
             /*$charge = \Stripe\Charge::create([
